@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  scylla:
+    image: scylladb/scylla:6.1
+    container_name: scylla
+    ports:
+      - "9042:9042"
+
+  scylla-load-keyspace:
+    container_name: scylla-load-keyspace
+    image: scylladb/scylla:6.1
+    volumes:
+      - "./init/:/init/"
+    entrypoint: [ "bash", "/init/init.sh" ]
