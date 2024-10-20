@@ -6,10 +6,10 @@ from .model.car import Car
 class Db(ABC):
 
     @abstractmethod
-    def insert_element(self, car: Car):
+    def insert_element(self, car: Car) -> str:
         pass
 
 
     @abstractmethod
-    def insert_elements(self, cars: List[Car]):
+    def insert_elements(self, cars: List[Car]) -> str:
         pass

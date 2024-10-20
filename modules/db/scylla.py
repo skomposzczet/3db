@@ -24,18 +24,20 @@ class Scylla(Db):
         }
 
     @override
-    def insert_element(self, car: Car):
+    def insert_element(self, car: Car) -> str:
         db_car = Scylla.__parse_car(car)
         query = self.session.prepare("""
             INSERT INTO sdb.car (id, full_name, movie_title) VALUES (?, ?, ?)
         """)
         self.session.execute(query, db_car.values())
+        return str(db_car["id"])
 
     @override
-    def insert_elements(self, cars: List[Car]):
+    def insert_elements(self, cars: List[Car]) -> str:
         query = self.session.prepare("""
                 INSERT INTO sdb.car (id, full_name, movie_title) VALUES (?, ?, ?)
             """)
-        for car in cars:
+        for car in cars[:-1]:
             db_car = Scylla.__parse_car(car)
             self.session.execute(query, db_car.values())
+        return self.insert_element(cars[-1])
