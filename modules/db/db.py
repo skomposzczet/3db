@@ -13,3 +13,7 @@ class Db(ABC):
     @abstractmethod
     def insert_elements(self, cars: List[Car]) -> str:
         pass
+
+    @abstractmethod
+    def update_element(self, uid: str, new_full_name: str):
+        pass

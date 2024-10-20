@@ -41,3 +41,10 @@ class Scylla(Db):
             db_car = Scylla.__parse_car(car)
             self.session.execute(query, db_car.values())
         return self.insert_element(cars[-1])
+
+    @override
+    def update_element(self, uid: str, new_full_name: str):
+        query = self.session.prepare("""
+            UPDATE sdb.car SET full_name = ? WHERE id = ?
+        """)
+        self.session.execute(query, [new_full_name, uuid.UUID(uid)])
