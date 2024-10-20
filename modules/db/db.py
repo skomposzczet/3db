@@ -9,7 +9,6 @@ class Db(ABC):
     def insert_element(self, car: Car) -> str:
         pass
 
-
     @abstractmethod
     def insert_elements(self, cars: List[Car]) -> str:
         pass
@@ -20,4 +19,8 @@ class Db(ABC):
 
     @abstractmethod
     def delete_element(self, uid: str):
+        pass
+
+    @abstractmethod
+    def select_element(self, uid: str):
         pass

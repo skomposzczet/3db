@@ -55,3 +55,10 @@ class Scylla(Db):
             DELETE from sdb.car WHERE id = ?
         """)
         self.session.execute(query, [uuid.UUID(uid)])
+
+    @override
+    def select_element(self, uid: str):
+        query = self.session.prepare("""
+            SELECT * from sdb.car WHERE id = ?
+        """)
+        return self.session.execute(query, [uuid.UUID(uid)])
