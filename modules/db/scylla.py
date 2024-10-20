@@ -48,3 +48,10 @@ class Scylla(Db):
             UPDATE sdb.car SET full_name = ? WHERE id = ?
         """)
         self.session.execute(query, [new_full_name, uuid.UUID(uid)])
+
+    @override
+    def delete_element(self, uid: str):
+        query = self.session.prepare("""
+            DELETE from sdb.car WHERE id = ?
+        """)
+        self.session.execute(query, [uuid.UUID(uid)])

@@ -17,3 +17,7 @@ class Db(ABC):
     @abstractmethod
     def update_element(self, uid: str, new_full_name: str):
         pass
+
+    @abstractmethod
+    def delete_element(self, uid: str):
+        pass
