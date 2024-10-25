@@ -1,6 +1,5 @@
 from typing import List, override
 from cassandra.cluster import Cluster
-import uuid
 from .db import Db
 from .model.car import Car
 
@@ -15,17 +14,9 @@ class Scylla(Db):
 
         self.session = self.cluster.connect()
 
-    @staticmethod
-    def __parse_car(car: Car) -> dict:
-        return {
-            "id": uuid.uuid4(),
-            "full_name": car.full_name,
-            "movie_title": car.movie_title,
-        }
-
     @override
     def insert_element(self, car: Car) -> str:
-        db_car = Scylla.__parse_car(car)
+        db_car = car.get_db_record()
         query = self.session.prepare("""
             INSERT INTO sdb.car (id, full_name, movie_title) VALUES (?, ?, ?)
         """)
@@ -38,7 +29,7 @@ class Scylla(Db):
                 INSERT INTO sdb.car (id, full_name, movie_title) VALUES (?, ?, ?)
             """)
         for car in cars[:-1]:
-            db_car = Scylla.__parse_car(car)
+            db_car = car.get_db_record()
             self.session.execute(query, db_car.values())
         return self.insert_element(cars[-1])
 
