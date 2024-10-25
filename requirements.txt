@@ -1,0 +1,5 @@
+click==8.1.7
+geomet==0.2.1.post1
+PyYAML==6.0.2
+scylla-driver==3.26.9
+six==1.16.0
