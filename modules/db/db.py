@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from .model.car import Car
+from modules.db.model.car import Car
 
 
 class Db(ABC):
