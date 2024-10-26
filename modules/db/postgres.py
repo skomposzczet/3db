@@ -3,18 +3,19 @@ from modules.db.db import Db
 from modules.db.model.car import Car
 import psycopg2
 
+
 class Postgres(Db):
-    def __init__(self):     
+    def __init__(self):
         self.session = psycopg2.connect(
-            database='database', 
-            user='postgres', 
-            password='password', 
-            host='127.0.0.1', 
+            database='database',
+            user='postgres',
+            password='password',
+            host='127.0.0.1',
             port='5432'
         )
-        
+
         self.cursor = self.session.cursor()
-        
+
     def __del__(self):
         self.session.close()
 
@@ -22,7 +23,7 @@ class Postgres(Db):
     def insert_element(self, car: Car) -> str:
         record = car.get_db_record()
         self.cursor.execute("""
-            INSERT INTO car (id, full_name, movie_title) 
+            INSERT INTO car (id, full_name, movie_title)
             VALUES ('{id}', '{full_name}', '{movie_title}')
         """.format(**record))
         self.session.commit()
@@ -33,7 +34,7 @@ class Postgres(Db):
         for car in cars[:-1]:
             record = car.get_db_record()
             self.cursor.execute("""
-                INSERT INTO car (id, full_name, movie_title) 
+                INSERT INTO car (id, full_name, movie_title)
                 VALUES ('{id}', '{full_name}', '{movie_title}')
             """.format(**record))
         return self.insert_element(cars[-1])

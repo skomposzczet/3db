@@ -2,15 +2,16 @@ from typing import List, override
 from cassandra.cluster import Cluster
 from .db import Db
 from .model.car import Car
+import uuid
 
 
 class Scylla(Db):
     def __init__(self):
         self.cluster = Cluster(
-                contact_points= [
-                    "127.0.0.1",
-                    ]
-                )
+            contact_points=[
+                "127.0.0.1",
+                ]
+            )
 
         self.session = self.cluster.connect()
 
@@ -26,8 +27,8 @@ class Scylla(Db):
     @override
     def insert_elements(self, cars: List[Car]) -> str:
         query = self.session.prepare("""
-                INSERT INTO sdb.car (id, full_name, movie_title) VALUES (?, ?, ?)
-            """)
+            INSERT INTO sdb.car (id, full_name, movie_title) VALUES (?, ?, ?)
+        """)
         for car in cars[:-1]:
             db_car = car.get_db_record()
             self.session.execute(query, db_car.values())
