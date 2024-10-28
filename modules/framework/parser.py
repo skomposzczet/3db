@@ -3,9 +3,9 @@ import numpy as np
 from modules.db.model.car import Car
 
 
-class Return_Car:
-    def __init__(self):
-        data_frame = pd.read_csv(filepath_or_buffer="./data/CarsInMovies.csv",
+class DataProvider:
+    def __init__(self,path_to_file):
+        data_frame = pd.read_csv(filepath_or_buffer=path_to_file,
                          delimiter=";",
                          index_col= None)
         self.data_frame = data_frame[["Car Full Name","Movie Title"]]
@@ -25,9 +25,9 @@ class Return_Car:
         d_slice = self.data_frame.iloc[self.start_ind:end_ind,:]
         n = 0
         for _, row in d_slice.iterrows():
-            sample = Car(full_name = row["Car Full Name"], movie_title = row["Movie Title"]) 
+            sample = Car(full_name = row["Car Full Name"], movie_title = row["Movie Title"])
             dt_list[n] = sample
             n+=1
-        
+
         self.start_ind = end_ind
         return dt_list
