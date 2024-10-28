@@ -11,7 +11,7 @@ class Return_Car:
         self.data_frame = data_frame[["Car Full Name","Movie Title"]]
         self.start_ind = 0
 
-    def gimmie_amount(self,amount):
+    def fetch_rows(self,amount):
         end_ind = self.start_ind + amount
 
         if self.start_ind == self.data_frame.shape[0]:
