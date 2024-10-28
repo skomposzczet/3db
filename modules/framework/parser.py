@@ -5,7 +5,7 @@ from modules.db.model.car import Car
 
 class Return_Car:
     def __init__(self):
-        df = pd.read_csv(filepath_or_buffer="./data/Cars in Movies.csv",
+        df = pd.read_csv(filepath_or_buffer="./data/CarsInMovies.csv",
                          delimiter=";",
                          index_col= None)
         self.df = df[["Car Full Name","Movie Title"]]
