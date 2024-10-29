@@ -7,14 +7,16 @@ import json
 
 
 class Test:
-    def __init__(self, db: Db, data_file: str, results_filename: str):
-        self.parser = DataProvider(data_file)
+    NUM_OF_ROWS_IN_ITERATION = 1000
+
+    def __init__(self, db: Db, provider: DataProvider, results_filename: str):
+        self.provider = provider
         self.results_filename = results_filename
         self.db = db
         
         self.testing_points = [1e3, 1e4, 1e5, 1e6]
         self.num_of_elements = 0
-        self.num_of_rows_in_iteration = 1000
+        self.NUM_OF_ROWS_IN_ITERATION = 1000
         self.crud_measurements = {}
 
     def __save_results(self):
@@ -27,12 +29,12 @@ class Test:
         return len(self.testing_points) == 0
 
     def __add_rows_to_db(self):
-        self.num_of_elements += self.num_of_rows_in_iteration
-        cars = self.parser.fetch_rows(self.num_of_rows_in_iteration)
+        self.num_of_elements += Test.NUM_OF_ROWS_IN_ITERATION
+        cars = self.provider.fetch_rows(Test.NUM_OF_ROWS_IN_ITERATION)
         self.db.insert_elements(cars)
 
     def __measure_crud(self):
-        car = self.parser.fetch_rows(1)[0]
+        car = self.provider.fetch_rows(1)[0]
         record_id = str(car.get_db_record()["id"])
         new_record_car_name = "test"
         
