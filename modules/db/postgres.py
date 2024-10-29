@@ -24,8 +24,8 @@ class Postgres(Db):
         record = car.get_db_record()
         self.cursor.execute("""
             INSERT INTO car (id, full_name, movie_title)
-            VALUES ('{id}', '{full_name}', '{movie_title}')
-        """.format(**record))
+            VALUES (%s, %s, %s)
+        """, [str(record["id"]), record["full_name"], record["movie_title"]])
         self.session.commit()
         return str(record["id"])
 
@@ -35,27 +35,27 @@ class Postgres(Db):
             record = car.get_db_record()
             self.cursor.execute("""
                 INSERT INTO car (id, full_name, movie_title)
-                VALUES ('{id}', '{full_name}', '{movie_title}')
-            """.format(**record))
+                VALUES (%s, %s, %s)
+        """, [str(record["id"]), record["full_name"], record["movie_title"]])
         return self.insert_element(cars[-1])
 
     @override
     def update_element(self, uid: str, new_full_name: str):
         self.cursor.execute("""
-                UPDATE car SET full_name = '{}' WHERE id = '{}'
-            """.format(new_full_name, uid))
+                UPDATE car SET full_name = %s WHERE id = %s
+            """, [new_full_name, uid])
         self.session.commit()
 
     @override
     def delete_element(self, uid: str):
         self.cursor.execute("""
-                DELETE from car WHERE id = '{}'
-            """.format(uid))
+                DELETE from car WHERE id = %s
+            """, [uid])
         self.session.commit()
 
     @override
     def select_element(self, uid: str):
         self.cursor.execute("""
-                SELECT * from car WHERE id = '{}'
-            """.format(uid))
+                SELECT * from car WHERE id = %s
+            """, [uid])
         return self.cursor.fetchone()
