@@ -12,7 +12,7 @@ cassandra() {
     echo 'Cassandra deployed'
 
     echo 'Running test...'
-    python main.py cassandra
+    python main.py --cassandra
     echo 'Finished test'
 
     pushd db/cassandra/ || return
@@ -30,7 +30,7 @@ scylla() {
     echo 'Scylla deployed'
 
     echo 'Running test...'
-    python main.py scylla
+    python main.py --scylla
     echo 'Finished test'
 
     pushd db/scylla/ || return
@@ -48,7 +48,7 @@ postgres() {
     echo 'Postgres deployed'
 
     echo 'Running test...'
-    python main.py postgres
+    python main.py --postgres
     echo 'Finished test'
 
     pushd db/postgres/ || return
@@ -68,6 +68,5 @@ plot() {
     echo 'Plotting...'
 }
 
-venv
 benchmark
 plot
