@@ -8,7 +8,7 @@ class DataProvider:
         data_frame = pd.read_csv(filepath_or_buffer=path_to_file,
                          delimiter=";",
                          index_col= None)
-        self.data_frame = data_frame[["Car Full Name","Movie Title"]]
+        self.data_frame = data_frame[["Car Full Name","Movie Title", "Brand", "Movie Type", "Class"]]
         self.start_ind = 0
 
     def fetch_rows(self,amount):
@@ -25,7 +25,12 @@ class DataProvider:
         d_slice = self.data_frame.iloc[self.start_ind:end_ind,:]
         n = 0
         for _, row in d_slice.iterrows():
-            sample = Car(full_name = row["Car Full Name"], movie_title = row["Movie Title"])
+            sample = Car(
+                full_name = row["Car Full Name"],
+                car_brand = row["Brand"],
+                car_class = row["Class"],
+                movie_title = row["Movie Title"],
+                movie_type = row["Movie Type"])
             dt_list[n] = sample
             n+=1
 
