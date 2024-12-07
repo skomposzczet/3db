@@ -13,10 +13,11 @@ class DataProvider:
     def __init__(self, path_to_file):
         self.start_ind = 0
         self.data_path = path_to_file
-        self.hashsum = "8781ad97b5a1eb29d61c99c25d8a1864"
+        self.hashsum = str(os.getenv("DATEFILE_HASH"))
         self.data_frame = self.__check_instance()
 
     def __check_instance(self) -> pd.DataFrame:
+        check = None
         path_split = self.data_path.split(sep="/")
         path = "/".join(path_split[:2])
 
