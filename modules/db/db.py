@@ -5,7 +5,6 @@ from modules.db.model.car import Car
 
 class Db(ABC):
 
-    @abstractmethod
     def prepare_insert(self, car: Car):
         pass
 
