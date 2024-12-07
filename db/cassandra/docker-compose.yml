@@ -26,5 +26,5 @@ services:
       cassandra:
         condition: service_healthy
     volumes:
-      - ./init.cql:/init.cql
+      - ../scylla/init/init.cql:/init.cql
     command: /bin/bash -c "echo loading cassandra keyspace && cqlsh cassandra -f /init.cql"
