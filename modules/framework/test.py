@@ -16,8 +16,12 @@ class Test:
         
         self.testing_points = [1e3, 1e4, 1e5, 1e6]
         self.num_of_elements = 0
-        self.NUM_OF_ROWS_IN_ITERATION = 1000
-        self.crud_measurements = {}
+        self.crud_measurements = {
+            "create": {},
+            "read": {},
+            "update": {},
+            "delete": {}
+        }
 
     def __save_results(self):
         Path("./results").mkdir(parents=True, exist_ok=True)
@@ -33,22 +37,25 @@ class Test:
         cars = self.provider.fetch_rows(Test.NUM_OF_ROWS_IN_ITERATION)
         self.db.insert_elements(cars)
 
+    def __save_measurements(self, create_time, read_time, update_time, delete_time):
+        current_testing_points = int(self.testing_points.pop(0))
+        self.crud_measurements["create"][current_testing_points] = create_time
+        self.crud_measurements["read"][current_testing_points] = read_time
+        self.crud_measurements["update"][current_testing_points] = update_time
+        self.crud_measurements["delete"][current_testing_points] = delete_time
+
     def __measure_crud(self):
         car = self.provider.fetch_rows(1)[0]
         record_id = str(car.get_db_record()["id"])
         new_record_car_name = "test"
+        self.db.prepare_insert(car)
         
         create_time = self.__measure_operation(lambda: self.db.insert_element(car))
         read_time = self.__measure_operation(lambda: self.db.select_element(record_id))
         update_time = self.__measure_operation(lambda: self.db.update_element(record_id, new_record_car_name))
         delete_time = self.__measure_operation(lambda: self.db.delete_element(record_id))
-        
-        self.crud_measurements[self.testing_points.pop(0)] = {
-            "create": create_time,
-            "read": read_time,
-            "update": update_time,
-            "delete": delete_time
-        }
+
+        self.__save_measurements(create_time, read_time, update_time, delete_time)
 
     def __measure_operation(self, operation):
         timer = Timer()
