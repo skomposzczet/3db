@@ -66,6 +66,8 @@ benchmark() {
 
 plot() {
     echo 'Plotting...'
+    python plot.py
+
 }
 
 benchmark
