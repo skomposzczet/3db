@@ -24,7 +24,7 @@ def get_args():
 
 def main():
     args = get_args()
-    provider = DataProvider("./data/CarsInMovies.csv")
+    provider = DataProvider('./data/Cars in Movies.csv')
 
     if args.cassandra:
         Test(Cassandra(), provider, "cassandra.json").run()
