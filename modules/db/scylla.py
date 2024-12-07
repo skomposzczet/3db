@@ -19,7 +19,9 @@ class Scylla(Db):
     def insert_element(self, car: Car) -> str:
         db_car = car.get_db_record()
         query = self.session.prepare("""
-            INSERT INTO sdb.car (id, full_name, movie_title) VALUES (?, ?, ?)
+            INSERT INTO
+            sdb.car (id, full_name, car_brand, car_class, movie_title, type_name)
+            VALUES (?, ?, ?, ?, ?, ?)
         """)
         self.session.execute(query, db_car.values())
         return str(db_car["id"])
@@ -27,7 +29,9 @@ class Scylla(Db):
     @override
     def insert_elements(self, cars: List[Car]) -> str:
         query = self.session.prepare("""
-            INSERT INTO sdb.car (id, full_name, movie_title) VALUES (?, ?, ?)
+            INSERT INTO
+            sdb.car (id, full_name, car_brand, car_class, movie_title, type_name)
+            VALUES (?, ?, ?, ?, ?, ?)
         """)
         for car in cars[:-1]:
             db_car = car.get_db_record()
